@@ -6,5 +6,5 @@ MyQObject2::MyQObject2(QObject *parent)
 
 void MyQObject2::newSlot2(QString message)
 {
-    qInfo() << "Message received from newSlot2: "<< message;
+    //qInfo() << "Message received from newSlot2: "<< message;
 }
