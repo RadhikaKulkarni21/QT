@@ -1,3 +1,4 @@
 QObject/.vscode/c_cpp_properties.json
 QObject/CMakeLists.txt
 HelloUser/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/.qtc_clangd/compile_commands.json
+HelloUser/.qtcreator/CMakeLists.txt.user

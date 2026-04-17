@@ -6,6 +6,7 @@
 #include "myqobject.h"
 #include "myqobject2.h"
 #include "qobject_meta.h"
+#include "qobject_memory.h"
 
 int main(int argc, char *argv[])
 {
@@ -52,6 +53,18 @@ int main(int argc, char *argv[])
     qInfo() << "\n---------- ENUMERATORS ----------";
     for(int i = 0; i < metaObject->enumeratorCount(); i++)
         qInfo() << "Enumerator" << i << ":" << metaObject->enumerator(i).name();
+
+    //Memory Management
+    QObject_memory *grandParent = new QObject_memory("Grand parent");
+
+    QObject_memory *parent = new QObject_memory("Parent", grandParent);
+
+    QObject_memory *child1 = new QObject_memory("Child 1", parent);
+    QObject_memory *child2 = new QObject_memory("Child 2", parent);
+    QObject_memory *child3 = new QObject_memory("Child 3");
+    child3->setParent(parent);
+
+    delete grandParent;
 
     return a.exec();
 
