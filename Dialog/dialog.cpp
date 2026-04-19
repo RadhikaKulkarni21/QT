@@ -20,5 +20,6 @@ Dialog::~Dialog()
 void Dialog::onTimeout()
 {
     m_counter++;
-    ui->lcdNumber->display(m_counter);
+    //ui->lcdNumber->display(m_counter);
+    //this is not working
 }

@@ -16,6 +16,8 @@ add_executable(SlotsAndSignals
   main.cpp
   sender.h sender.cpp
   receiver.h receiver.cpp
+  connections.h connections.cpp
+
 )
 target_link_libraries(SlotsAndSignals PRIVATE Qt${QT_VERSION_MAJOR}::Core)
 
