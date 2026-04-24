@@ -12,6 +12,21 @@ Window {
 
     property int  loading: Globals.status
     property string statusMessage: Globals.status ? "Loading" : "Ready"
+    required property BingoModel bingoModel
+
+    Connections {
+        target: Globals
+        function onNumChanged() {
+            let modelCount = root.bingoModel.rowCount()
+                for (let i = 0; i < modelCount ; i++) {
+                    let index = root.bingoModel.index(i, 0)
+                    if(root.bingoModel.data(index, 1) === Globals.num && root.bingoModel.data(index, 2) === false) {
+                        root.bingoModel.setListElem(i, {"number": root.bingoModel.data(index, 1), "found": true})
+                        console.log("Match found!: " + Globals.num)
+                    }
+                }
+            }
+        }
 
     Column {
         anchors.centerIn: parent
@@ -59,6 +74,34 @@ Window {
             height: 50
             anchors.horizontalCenter: parent.horizontalCenter
             running: root.loading
+        }
+
+        Row {
+            anchors.horizontalCenter: parent.horizontalCenter
+            spacing: 2
+
+            Repeater {
+                model: root.bingoModel
+
+                delegate: Rectangle {
+                id: viewDelegate
+
+                width: 40
+                height: 40
+
+                required property int index
+                required property int number
+                required property bool found
+
+                color: viewDelegate.found ? "lightgreen" : "lightcoral"
+
+                Text {
+                    anchors.centerIn: parent
+                    font.pointSize: 14
+                    text: viewDelegate.number
+                    }
+                }
+            }
         }
     }
 }

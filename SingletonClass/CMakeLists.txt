@@ -14,11 +14,15 @@ qt_add_executable(appSingletonClass
 
 qt_add_qml_module(appSingletonClass
     URI SingletonClass
+    VERSION 1.0
+        DEPENDENCIES
+            QtCore
     QML_FILES
         Main.qml
     SOURCES
         globals.h
         globals.cpp
+        SOURCES bingomodel.h bingomodel.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
