@@ -20,9 +20,10 @@ qt_add_qml_module(appSingletonClass
     QML_FILES
         Main.qml
     SOURCES
-        globals.h
-        globals.cpp
-        SOURCES bingomodel.h bingomodel.cpp
+        globals.h globals.cpp
+        bingomodel.h bingomodel.cpp
+        counters.h counters.cpp
+        bingoresults.h bingoresults.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

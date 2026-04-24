@@ -35,6 +35,7 @@ public:
     Qt::ItemFlags flags(const QModelIndex &index) const override;
     QHash<int, QByteArray> roleNames() const override;
     Q_INVOKABLE void setListElem(int listIndex, QVariantMap elem);
+    Q_INVOKABLE void resetModel();
 
 private:
     QList<ListElement> m_data;

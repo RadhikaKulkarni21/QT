@@ -14,19 +14,30 @@ Window {
     property string statusMessage: Globals.status ? "Loading" : "Ready"
     required property BingoModel bingoModel
 
+    BingoResults {id: bingoResults}
+
     Connections {
         target: Globals
         function onNumChanged() {
-            let modelCount = root.bingoModel.rowCount()
+            if (!dialog.visible) { // if dialog is showing results, want to ignore this during reset
+                let modelCount = root.bingoModel.rowCount()
                 for (let i = 0; i < modelCount ; i++) {
                     let index = root.bingoModel.index(i, 0)
                     if(root.bingoModel.data(index, 1) === Globals.num && root.bingoModel.data(index, 2) === false) {
                         root.bingoModel.setListElem(i, {"number": root.bingoModel.data(index, 1), "found": true})
-                        console.log("Match found!: " + Globals.num)
+                        bingoResults.matchCounter++ //anonymous property - class cannot be referred to by name in QML
                     }
                 }
+
+                bingoResults.calculate(bingoResults.matchCounter, bingoResults.turnsRemaining, root.bingoModel.rowCount()) //calculate win or lose in child class exposed as QML_ELEMENT
+
+                if (bingoResults.message !== "")
+                    dialog.open()
+
+                bingoResults.turnsRemaining-- //anonymous property
             }
         }
+    }
 
     Column {
         anchors.centerIn: parent
@@ -102,6 +113,53 @@ Window {
                     }
                 }
             }
+        }
+        Text {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    font.pointSize: 12
+                    text: "Turns remaining : " + bingoResults.turnsRemaining
+                }
+
+                Dialog {
+                    id: dialog
+
+                    implicitWidth: 200
+                    implicitHeight: 200
+                    anchors.centerIn: parent
+                    modal: true
+                    title: "Game over"
+
+                    Column {
+                        anchors.centerIn: parent
+                        spacing: 15
+
+                        Text {
+                            id: dialogText
+
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            font.pointSize: 16
+                            color: "white"
+                        }
+
+                        Button {
+                            id: resetButton
+
+                            width: 70
+                            height: 40
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            text: "Reset"
+
+                            onClicked: {
+                                Globals.num = 0
+                                dialog.visible = false
+                                bingoResults.turnsRemaining = 10
+                                bingoResults.matchCounter = 0
+                                root.bingoModel.resetModel()
+                            }
+                        }
+                    }
+
+            onOpened: dialogText.text = bingoResults.message
         }
     }
 }

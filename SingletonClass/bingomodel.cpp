@@ -67,3 +67,15 @@ void BingoModel::setListElem(int listIndex, QVariantMap elem)
     QModelIndex index = createIndex(listIndex, 0);
     emit dataChanged(index, index);
 }
+
+void BingoModel::resetModel()
+{
+    int originalListSize = m_data.size();
+    m_data.remove(0, originalListSize);
+    for (int i = 0; i < originalListSize; i++) //update elements in bingoModel
+    {
+        m_data << ListElement(QRandomGenerator::global()->bounded(1,10), 0);
+        QModelIndex index = createIndex(i, 0);
+        emit dataChanged(index, index);
+    }
+}
