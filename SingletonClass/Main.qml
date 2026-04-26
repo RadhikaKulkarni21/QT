@@ -114,6 +114,7 @@ Window {
                 }
             }
         }
+
         Text {
                     anchors.horizontalCenter: parent.horizontalCenter
                     font.pointSize: 12
