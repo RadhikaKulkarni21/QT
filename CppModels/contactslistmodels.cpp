@@ -83,3 +83,20 @@ bool ContactsListModels::removeRows(int row, int count, const QModelIndex &paren
     endRemoveRows();
     return true;
 }
+
+bool ContactsListModels::moveRows(const QModelIndex &sourceParent, int sourceRow, int count, const QModelIndex &destinationParent, int destinationRow)
+{
+    int newDestination = destinationRow;
+    if (sourceRow < destinationRow) {
+        newDestination++;
+    }
+
+    beginMoveRows(sourceParent, sourceRow, sourceRow, destinationParent, newDestination);
+    firstNames.move(sourceRow, destinationRow);
+    lastNames.move(sourceRow, destinationRow);
+    ages.move(sourceRow, destinationRow);
+    phoneNumbers.move(sourceRow, destinationRow);
+    endMoveRows();
+
+    return true;
+}
