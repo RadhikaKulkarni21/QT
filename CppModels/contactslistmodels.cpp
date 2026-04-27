@@ -51,3 +51,35 @@ QHash<int, QByteArray> ContactsListModels::roleNames() const
 
     return mapping;
 }
+
+bool ContactsListModels::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    if (role != Qt::EditRole || value.toString().isEmpty())
+        return false;
+    const int row = index.row();
+
+    QStringList contact = value.toString().split(", ");
+    firstNames[row] = contact[0];
+    lastNames[row] = contact[1];
+    ages[row] = contact[2].toInt();
+    phoneNumbers[row] = contact[3];
+
+    emit dataChanged(index, index);
+    return true;
+}
+
+Qt::ItemFlags ContactsListModels::flags(const QModelIndex &index) const
+{
+    return QAbstractListModel::flags(index) | Qt::ItemIsEditable;
+}
+
+bool ContactsListModels::removeRows(int row, int count, const QModelIndex &parent)
+{
+    beginRemoveRows(parent, row, row + count - 1);
+    firstNames.removeAt(row);
+    lastNames.removeAt(row);
+    ages.removeAt(row);
+    phoneNumbers.removeAt(row);
+    endRemoveRows();
+    return true;
+}

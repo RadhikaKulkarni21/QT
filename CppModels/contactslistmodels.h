@@ -23,6 +23,11 @@ public:
     QVariant data(const QModelIndex &index, int role) const;
     QHash<int, QByteArray> roleNames() const;
 
+    bool setData(const QModelIndex &index, const QVariant &value, int role);
+    Qt::ItemFlags flags(const QModelIndex &index) const;
+
+    Q_INVOKABLE bool removeRows(int row, int count, const QModelIndex &parent) override;
+
 private:
     QStringList firstNames;
     QStringList lastNames;
